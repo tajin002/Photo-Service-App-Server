@@ -56,18 +56,16 @@ async function run(){
             res.send(result)
         })
 
-        app.get('/review/:serviceName', async (req, res) => {
-            const serviceName = req.params.serviceName;
-            console.log(serviceName)
-            const query = {serviceName:serviceName}
-            console.log(query);
-            const cursor = reviewCollection.find(query);
-            const review = await cursor.toArray();
+        app.get('/review/:name', async (req, res) => {
+            const serviceName = req.params.name
+            const query = {serviceName}
+            const review = await reviewCollection.find(query).toArray();
+            console.log(query)
             res.send(review);
         })
+
+        //post api create to item added  
     }
-
-
     finally{
 
     }
