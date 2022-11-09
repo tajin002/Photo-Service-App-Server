@@ -72,6 +72,29 @@ async function run(){
             console.log(result);
 
             res.send(result);
+        });
+
+        app.put('/review/:id', async(req,res)=>{
+            const id = req.params.id
+            const update = req.body.post
+            const query = {_id:ObjectId(id)}
+            const updatedDoc = {
+                $set:{
+                    post:update
+                }
+            }
+            const result = await reviewCollection.updateOne(query,updatedDoc)
+            res.send(result)
+
+        })
+
+        app.delete('/review/:id' , async(req,res)=>{
+            const id =req.params.id
+            const query = {_id : ObjectId(id)}
+            console.log(query);
+            const result = await reviewCollection.deleteOne(query);
+            console.log(result)
+            res.send(result);
         })
 
         //post api create to item added  
