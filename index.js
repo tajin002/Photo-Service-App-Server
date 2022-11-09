@@ -25,12 +25,15 @@ async function run(){
     try{
         const serviceCollection = client.db('photoGraphy').collection('services');
         const reviewCollection = client.db('photoGraphy').collection('review')
+        const homeCollection = client.db('photoGraphy').collection('home')
+
+
 
         ////get db item this for home part
         app.get('/home', async (req, res) =>{
             const query = {};
-            const cursor = serviceCollection.find(query)
-            const result = await cursor.limit(3).toArray();
+            const cursor = homeCollection.find(query)
+            const result = await cursor.toArray();
             res.send(result)
         });
 
@@ -57,11 +60,18 @@ async function run(){
         })
 
         app.get('/review/:name', async (req, res) => {
-            const serviceName = req.params.name
-            const query = {serviceName}
+            const name = req.params.name
+            const query = {name}
             const review = await reviewCollection.find(query).toArray();
-            console.log(query)
             res.send(review);
+        });
+
+        app.post ('/review' , async (req, res) =>{
+            const review = req.body;
+            const result = await reviewCollection.insertOne(review);
+            console.log(result);
+
+            res.send(result);
         })
 
         //post api create to item added  
