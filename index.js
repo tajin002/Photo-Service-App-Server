@@ -37,6 +37,14 @@ async function run(){
             res.send(result)
         });
 
+        app.post('/home' , async(req,res)=>{
+            const product = req.body
+            const result = await homeCollection.insertOne(product)
+            console.log(result)
+            res.send(result)
+
+        })
+
          //get db item this for services part
          app.get('/services', async (req, res) =>{
             const query = {};
@@ -74,24 +82,24 @@ async function run(){
             res.send(result);
         });
 
-        app.put('/review/:id', async(req,res)=>{
-            const id = req.params.id
-            const update = req.body.post
+        app.patch('/review/:id', async(req,res)=>{
+            const id = req.params.id;
+            const post = req.body.post
             const query = {_id:ObjectId(id)}
+        
             const updatedDoc = {
                 $set:{
-                    post:update
+                    post:post
                 }
             }
             const result = await reviewCollection.updateOne(query,updatedDoc)
+            console.log(query , post , id , result);
             res.send(result)
-
         })
 
         app.delete('/review/:id' , async(req,res)=>{
             const id =req.params.id
             const query = {_id : ObjectId(id)}
-            console.log(query);
             const result = await reviewCollection.deleteOne(query);
             console.log(result)
             res.send(result);
